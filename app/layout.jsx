@@ -1,5 +1,5 @@
 import '@styles/globals.css'
-
+import Head from 'next/head'
 import Nav from '@components/Nav'
 import Provider from '@components/Provider'
 
@@ -10,7 +10,13 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en">
+    <>
+      <Head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+        <link rel="icon" href="/favicon.ico" />
+        <html lang="en" />
+      </Head>
       <body>
         <Provider>
           <div className='main'>
@@ -23,7 +29,7 @@ const RootLayout = ({ children }) => {
           </main>
         </Provider>
       </body>
-    </html>
+    </>
   )
 }
 
