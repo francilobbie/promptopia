@@ -17,6 +17,7 @@ const handler = NextAuth({
       if (sessionUser) {
         session.user.id = sessionUser._id.toString();
         session.user.image = sessionUser.image; // Add this line
+        session.user.description = sessionUser.description; // Add this line
       }
       return session;
     },
@@ -32,7 +33,8 @@ const handler = NextAuth({
           user = await User.create({
             email: profile.email,
             username: username,
-            image: profile.picture
+            image: profile.picture,
+            description: "Welcome to your personal profile page." // Only if you want a different default
           });
         }
 
