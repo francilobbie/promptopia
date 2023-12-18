@@ -1,52 +1,54 @@
 import Prompt from "@models/prompt";
 import { connectToDB } from "@utils/database";
 
+
 // GET (read)
-export const GET = async (req, res) => {
+export const GET = async (req, { params }) => {
   try {
     await connectToDB();
 
-    const { id } = req.query;
-    const prompt = await Prompt.findById(id).populate("creator", "username");
-    if(!prompt) return res.status(404).json({ error: "Prompt not found" });
+    const prompt = await Prompt.findById(params.id).populate("creator", "username");
+    if(!prompt) return new Response("Prompt not found", { status: 404 });
 
-    res.status(200).json(prompt);
+    return new Response(JSON.stringify(prompt), { status: 200 });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch prompt" });
+    return new Response("Failed to fetch prompts", { status: 500 });
   }
 }
 
 // PATCH (update)
-export const PATCH = async (req, res) => {
+
+export const PATCH = async (req, { params }) => {
+  const { prompt, tag } = await req.json();
+
   try {
     await connectToDB();
 
-    const { id } = req.query;
-    const { prompt, tag } = req.body;
+    const existingPrompt = await Prompt.findById(params.id);
 
-    const existingPrompt = await Prompt.findById(id);
-    if(!existingPrompt) return res.status(404).json({ error: "Prompt not found" });
+    if(!existingPrompt) return new Response("Prompt not found", { status: 404 });
 
     existingPrompt.prompt = prompt;
     existingPrompt.tag = tag;
+
     await existingPrompt.save();
 
-    res.status(200).json(existingPrompt);
+    return new Response(JSON.stringify(existingPrompt), { status: 200 });
   } catch (error) {
-    res.status(500).json({ error: "Failed to update prompt" });
+    return new Response("Failed to update prompt", { status: 500 });
   }
 }
 
 // DELETE (delete)
-export const DELETE = async (req, res) => {
+
+export const DELETE = async (req, { params }) => {
   try {
     await connectToDB();
 
-    const { id } = req.query;
-    await Prompt.findByIdAndRemove(id);
+    await Prompt.findByIdAndRemove(params.id);
 
-    res.status(200).json({ message: "Prompt deleted" });
+    return new Response("Prompt deleted", { status: 200 });
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete prompt" });
+    return new Response("Failed to delete prompt", { status: 500 });
   }
 }
