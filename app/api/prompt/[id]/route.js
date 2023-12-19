@@ -1,23 +1,29 @@
 import Prompt from "@models/prompt";
 import { connectToDB } from "@utils/database";
 
-
 // GET (read)
 export const GET = async (req, { params }) => {
   try {
     await connectToDB();
 
     const prompt = await Prompt.findById(params.id).populate("creator");
-    if(!prompt) return new Response("Prompt not found", { status: 404 });
+    if (!prompt) {
+      const response = new Response("Prompt not found", { status: 404 });
+      response.headers.set('Cache-Control', 'no-store, max-age=0');
+      return response;
+    }
 
-    return new Response(JSON.stringify(prompt), { status: 200 });
+    const response = new Response(JSON.stringify(prompt), { status: 200 });
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
   } catch (error) {
-    return new Response("Failed to fetch prompts", { status: 500 });
+    const response = new Response("Failed to fetch prompts", { status: 500 });
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
   }
-}
+};
 
 // PATCH (update)
-
 export const PATCH = async (req, { params }) => {
   const { prompt, tag } = await req.json();
 
@@ -26,29 +32,40 @@ export const PATCH = async (req, { params }) => {
 
     const existingPrompt = await Prompt.findById(params.id);
 
-    if(!existingPrompt) return new Response("Prompt not found", { status: 404 });
+    if (!existingPrompt) {
+      const response = new Response("Prompt not found", { status: 404 });
+      response.headers.set('Cache-Control', 'no-store, max-age=0');
+      return response;
+    }
 
     existingPrompt.prompt = prompt;
     existingPrompt.tag = tag;
 
     await existingPrompt.save();
 
-    return new Response(JSON.stringify(existingPrompt), { status: 200 });
+    const response = new Response(JSON.stringify(existingPrompt), { status: 200 });
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
   } catch (error) {
-    return new Response("Failed to update prompt", { status: 500 });
+    const response = new Response("Failed to update prompt", { status: 500 });
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
   }
-}
+};
 
 // DELETE (delete)
-
 export const DELETE = async (req, { params }) => {
   try {
     await connectToDB();
 
     await Prompt.findByIdAndRemove(params.id);
 
-    return new Response("Prompt deleted", { status: 200 });
+    const response = new Response("Prompt deleted", { status: 200 });
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
   } catch (error) {
-    return new Response("Failed to delete prompt", { status: 500 });
+    const response = new Response("Failed to delete prompt", { status: 500 });
+    response.headers.set('Cache-Control', 'no-store, max-age=0');
+    return response;
   }
-}
+};
