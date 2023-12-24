@@ -58,14 +58,13 @@ export const DELETE = async (req, { params }) => {
   try {
     await connectToDB();
 
-    await Prompt.findByIdAndRemove(params.id);
+    const deletedPrompt = await Prompt.findByIdAndDelete(params.id);
+    if (!deletedPrompt) {
+      return new Response(JSON.stringify({ message: "Prompt not found" }), { status: 404 });
+    }
 
-    const response = new Response("Prompt deleted", { status: 200 });
-    response.headers.set('Cache-Control', 'no-store, max-age=0');
-    return response;
+    return new Response(JSON.stringify({ message: "Prompt deleted" }), { status: 200 });
   } catch (error) {
-    const response = new Response("Failed to delete prompt", { status: 500 });
-    response.headers.set('Cache-Control', 'no-store, max-age=0');
-    return response;
+    return new Response(JSON.stringify({ message: "Failed to delete prompt", error }), { status: 500 });
   }
 };
