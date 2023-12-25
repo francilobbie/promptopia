@@ -133,6 +133,20 @@
   @apply rounded-xl border border-gray-200 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-5;
 }
 
+
+@media (min-width: 700px) {
+  .prompt_layout {
+    grid-template-columns: repeat(2, minmax(auto, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .custom-grid {
+    grid-template-columns: repeat(3, minmax(auto, 1fr));
+    justify-content: center;
+  }
+}
+
 .prompt_layout {
   @apply space-y-6 py-8 sm:columns-2 sm:gap-6 xl:columns-3;
 }
