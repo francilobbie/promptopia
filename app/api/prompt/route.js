@@ -12,6 +12,7 @@ export const GET = async () => {
         'Content-Type': 'application/json',
         // Only use s-maxage and stale-while-revalidate for caching control
         'Cache-Control': 's-maxage=1, stale-while-revalidate=59',
+        'Vercel-CDN-Cache-Control': 's-maxage=1, stale-while-revalidate=59',
       },
     });
     return response;
