@@ -55,7 +55,7 @@ const MyProfile = () => {
         const response = await fetch(`/api/users/${session?.user.id}`, { method: "DELETE" });
         if (response.ok) {
           alert("Account successfully deleted.");
-          signOut();
+          signOut({ redirect: false }); // Sign out without redirecting
           router.push('/');
         } else {
           alert("Failed to delete account. Please try again.");
