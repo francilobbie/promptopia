@@ -84,6 +84,7 @@ const MyProfile = () => {
       handleDelete={handleDelete}
       handleDeleteAccount={handleDeleteAccount}
       isDeleting={isDeleting}
+      isCurrentUserProfile={true}
     />
   );
 };

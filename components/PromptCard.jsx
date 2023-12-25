@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation'
+import moment from 'moment';
 
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
 
@@ -24,6 +25,8 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
 
     router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
   }
+
+  const formattedDate = moment(post.createdAt).format('MMM Do YY'); // Customize the format as needed
 
 
   return (
@@ -61,11 +64,16 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
       </div>
 
       <p className='my-4 font-satoshi text-sm text-gray-700'>{post.prompt}</p>
-      <p className='font-inter text-sm blue_gradient cursor-pointer'
-        onClick={() => handleTagClick && handleTagClick(post.tag)}
-      >
-        #{post.tag}
-      </p>
+      <div className='flex justify-between items-center'>
+        <p className='font-inter text-sm blue_gradient cursor-pointer'
+          onClick={() => handleTagClick && handleTagClick(post.tag)}
+        >
+          #{post.tag}
+        </p>
+        <p className='font-inter text-xs text-gray-500'>
+          Created on : {formattedDate}
+        </p>
+      </div>
 
       {session?.user.id === post.creator._id && pathName === '/profile' && (
         <div className='mt-5 flex-center gap-4 border-t border-gray-100 pt-3'>
