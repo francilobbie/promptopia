@@ -3,6 +3,8 @@
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import useSWR, { mutate } from 'swr';
+
 
 import Profile from "@components/Profile";
 
@@ -36,16 +38,17 @@ const MyProfile = () => {
         method: "DELETE",
       });
 
-      if (!response.ok) {
+      if (response.ok) {
+        const filteredPosts = myPosts.filter((item) => item._id !== post._id);
+        setMyPosts(filteredPosts);
+        mutate('/api/prompt'); // Revalidate the cache for /api/prompt
+      } else {
         const errorData = await response.json();
         console.error('Delete Error:', errorData);
-        return;
       }
-
-      const filteredPosts = myPosts.filter((item) => item._id !== post._id);
-      setMyPosts(filteredPosts);
     }
   };
+
 
   const handleDeleteAccount = async () => {
     const confirmDelete = confirm("Are you sure you want to delete your account? This cannot be undone.");
