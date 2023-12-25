@@ -42,7 +42,7 @@ const MyProfile = () => {
       if (response.ok) {
         const filteredPosts = myPosts.filter((item) => item._id !== post._id);
         setMyPosts(filteredPosts);
-        mutate('/api/prompt'); // Revalidate the cache for /api/prompt
+        mutate('/api/prompt', true); // Revalidate the cache for /api/prompt
       } else {
         const errorData = await response.json();
         console.error('Delete Error:', errorData);
