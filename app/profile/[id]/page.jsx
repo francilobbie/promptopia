@@ -1,3 +1,6 @@
+"use client"
+
+
 // UserProfile Component
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
