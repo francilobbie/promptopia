@@ -10,7 +10,8 @@ export const GET = async () => {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-store, max-age=0',
+        // Only use s-maxage and stale-while-revalidate for caching control
+        'Cache-Control': 's-maxage=1, stale-while-revalidate=59',
       },
     });
     return response;
