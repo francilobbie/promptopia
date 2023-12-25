@@ -1,7 +1,7 @@
 'use client';
 
 
-import useSWR from 'swr';
+import useSWR, { mutate} from 'swr';
 import PromptCard from "./PromptCard";
 import React, { useState } from 'react';
 
@@ -47,6 +47,10 @@ const Feed = () => {
 
   const handleTagClick = (tagName) => {
     setSearchText(tagName);
+  };
+
+  const revalidateData = () => {
+    mutate('/api/prompt');
   };
 
   return (

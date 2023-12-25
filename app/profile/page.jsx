@@ -28,6 +28,7 @@ const MyProfile = () => {
 
   const handleEdit = (post) => {
     router.push(`/update-prompt?id=${post._id}`);
+    mutate('/api/prompt'); // Revalidate the cache for /api/prompt
   };
 
   const handleDelete = async (post) => {
