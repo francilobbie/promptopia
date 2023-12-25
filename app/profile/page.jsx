@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -11,6 +11,7 @@ const MyProfile = () => {
   const { data: session, status } = useSession();
 
   const [myPosts, setMyPosts] = useState([]);
+  const [isDeleting, setIsDeleting] = useState(false); // Add isDeleting state
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -46,6 +47,28 @@ const MyProfile = () => {
     }
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmDelete = confirm("Are you sure you want to delete your account? This cannot be undone.");
+    if (confirmDelete) {
+      setIsDeleting(true); // Set isDeleting to true
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}`, { method: "DELETE" });
+        if (response.ok) {
+          alert("Account successfully deleted.");
+          signOut();
+          router.push('/');
+        } else {
+          alert("Failed to delete account. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error deleting account:", error);
+        alert("An error occurred while deleting your account.");
+      } finally {
+        setIsDeleting(false); // Reset isDeleting to false
+      }
+    }
+  };
+
   const displayName = session && status === 'authenticated' ? "My" : session?.user.name;
 
   return (
@@ -55,6 +78,8 @@ const MyProfile = () => {
       data={myPosts}
       handleEdit={handleEdit}
       handleDelete={handleDelete}
+      handleDeleteAccount={handleDeleteAccount}
+      isDeleting={isDeleting}
     />
   );
 };

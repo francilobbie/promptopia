@@ -93,6 +93,22 @@
   @apply bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent;
 }
 
+.delete-account-btn {
+  background-image: linear-gradient(to right, #ff7e5f, #fe6b8b); /* Red gradient */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding for size */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Cursor changes to pointer on hover */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.delete-account-btn:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect for depth */
+}
+
 .green_gradient {
   @apply bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent;
 }
