@@ -13,7 +13,7 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete, handleDeleteAccou
       </p>
       <div className='flex justify-end my-4 w-full'>
       {isDeleting ? (
-          <div>Deleting account...</div>
+          <button className='delete-account-btn'>Delete account...</button>
         ) : (
           <button className='delete-account-btn' onClick={handleDeleteAccount}>Delete My Account</button>
         )}
