@@ -136,7 +136,9 @@
 
 @media (min-width: 700px) {
   .prompt_layout {
+    @apply space-y-6 py-8 sm:gap-6;
     grid-template-columns: repeat(2, minmax(auto, 1fr));
+    @apply grid items-baseline
   }
 }
 
@@ -147,9 +149,9 @@
   }
 }
 
-@media (min-width: 690px) {
+@media (max-width: 690px) {
   .prompt_layout {
-    @apply space-y-6 py-8 sm:columns-2 sm:gap-6 sm:space-y-0 sm:py-12;
+    @apply space-y-6 py-8 sm:gap-6;
   }
 }
 

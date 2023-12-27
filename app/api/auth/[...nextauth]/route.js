@@ -5,21 +5,20 @@ import User from "@models/user";
 import { connectToDB } from "@utils/database";
 import sendEmail from "@utils/mail";
 
-
 const handler = NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    })
+    }),
   ],
   callbacks: {
     async session({ session }) {
       const sessionUser = await User.findOne({ email: session.user.email });
       if (sessionUser) {
         session.user.id = sessionUser._id.toString();
-        session.user.image = sessionUser.image; // Add this line
-        session.user.description = sessionUser.description; // Add this line
+        session.user.image = sessionUser.image;
+        session.user.description = sessionUser.description;
       }
       return session;
     },
@@ -30,16 +29,16 @@ const handler = NextAuth({
         let user = await User.findOne({ email: profile.email });
 
         if (!user) {
-          // Create a username that adheres to your schema's requirements
           const username = profile.email.split("@")[0].replace(/[^a-zA-Z0-9._]/g, "").substring(0, 20);
           user = await User.create({
             email: profile.email,
             username: username,
             image: profile.picture,
-            description: "Welcome to your personal profile page." // Only if you want a different default
+            description: "Welcome to your personal profile page."
           });
 
           const subject = "Welcome to Promptopia!";
+          // Text and HTML content for the email
           const text =
             `Hi ${user.username}! Welcome to Promptopia.
 
@@ -59,7 +58,7 @@ const handler = NextAuth({
             👉[https://promptopia-pi-seven.vercel.app/]
             `;
 
-            const html = `
+          const html = `
             <div style="font-family: sans-serif; color: #333; line-height: 1.6;">
               <h1 style="color: #ff5722;">Welcome to Promptopia!</h1>
               <p>Hi ${user.username}! Welcome to Promptopia.</p>
@@ -74,24 +73,15 @@ const handler = NextAuth({
             </div>
             `;
 
-
-          try {
-            await sendEmail(user.email, subject, text, html);
-            console.log('Welcome email sent to:', user.email);
-          } catch (error) {
-            console.error('Error sending welcome email:', error);
-            // Decide how to handle the error. E.g., Log it, or even retry sending.
-          }
-
-
+          // Asynchronously send the email without awaiting the result
+          sendEmail(user.email, subject, text, html)
+            .then(() => console.log('Welcome email sent to:', user.email))
+            .catch(error => console.error('Error sending welcome email:', error));
         }
-
-        // Additional checks or operations can be done here
 
         return true; // Sign-in successful
       } catch (error) {
         console.error("Error in signIn callback", error);
-        // Handle specific errors differently if needed
         return false; // Deny access on error
       }
     }
