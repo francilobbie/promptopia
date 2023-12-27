@@ -26,7 +26,19 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
     router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
   }
 
-  const formattedDate = moment(post.createdAt).format('MMM Do YY'); // Customize the format as needed
+    // Custom function to format date to concise relative time (e.g., '28m')
+    const formatRelativeTime = date => {
+      const duration = moment.duration(moment().diff(moment(date)));
+      if (duration.asHours() < 1) return duration.minutes() + 'm';
+      if (duration.asHours() < 24) return Math.round(duration.asHours()) + 'h';
+      return moment(date).fromNow();
+    };
+
+    // Format the created date
+    const formattedDate = formatRelativeTime(post.createdAt);
+
+    // Check if the post was edited
+    const isEdited = post.updatedAt && post.createdAt !== post.updatedAt;
 
 
   return (
@@ -71,7 +83,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
           #{post.tag}
         </p>
         <p className='font-inter text-xs text-gray-500'>
-          Created on : {formattedDate}
+          {formattedDate}{isEdited && ' • Edited'}
         </p>
       </div>
 

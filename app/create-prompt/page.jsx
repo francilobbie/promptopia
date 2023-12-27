@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { mutate } from 'swr';
+
 
 import Form from "@components/Form";
 
@@ -25,9 +27,13 @@ const CreatePrompt = () => {
           userId: session?.user.id,
           tag: post.tag,
         }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
 
       if (response.ok) {
+        mutate('/api/prompts');
         router.push("/");
       }
     } catch (error) {

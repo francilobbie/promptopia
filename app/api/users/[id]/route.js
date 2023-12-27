@@ -78,9 +78,9 @@ export const DELETE = async (req, { params }) => {
 
           try {
             await sendEmail(user.email, subject, text, html);
-            console.log('Welcome email sent to:', user.email);
+            console.log('Good by email sent to:', user.email);
           } catch (error) {
-            console.error('Error sending welcome email:', error);
+            console.error('Error sending Good by email:', error);
             // Decide how to handle the error. E.g., Log it, or even retry sending.
           }
 
