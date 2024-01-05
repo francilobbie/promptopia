@@ -31,7 +31,9 @@
 //   )
 // }
 
-export default RootLayout
+// export default RootLayout
+
+
 import '@styles/globals.css'
 import Head from 'next/head'
 import Nav from '@components/Nav'
