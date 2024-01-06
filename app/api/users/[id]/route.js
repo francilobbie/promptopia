@@ -70,7 +70,7 @@ export const DELETE = async (req, { params }) => {
               <p>Wishing you all the best in your future creative endeavors!</p>
               <p>Farewell and take care,</p>
               <p>The Promptopia Team</p>
-              <a href="https://promptopia-pi-seven.vercel.app/" style="display: inline-block; background-color: #ff5722; color: #ffffff; padding: 10px 20px; margin-top: 10px; text-decoration: none; border-radius: 5px;">Visit Promptopia</a>
+              <a href="https://jade-tartufo-cc767c.netlify.app/" style="display: inline-block; background-color: #ff5722; color: #ffffff; padding: 10px 20px; margin-top: 10px; text-decoration: none; border-radius: 5px;">Visit Promptopia</a>
             </div>
             `;
 

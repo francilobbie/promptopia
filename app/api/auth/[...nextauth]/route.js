@@ -69,7 +69,7 @@ const handler = NextAuth({
               <p>Remember, every prompt you share helps not just you but others in crafting greater stories and ideas.</p>
               <p>Happy prompting!</p>
               <p>Your friends at Promptopia</p>
-              <a href="https://promptopia-pi-seven.vercel.app/" style="display: inline-block; background-color: #ff5722; color: #ffffff; padding: 10px 20px; margin-top: 10px; text-decoration: none; border-radius: 5px;">Start Prompting</a>
+              <a href="https://jade-tartufo-cc767c.netlify.app/" style="display: inline-block; background-color: #ff5722; color: #ffffff; padding: 10px 20px; margin-top: 10px; text-decoration: none; border-radius: 5px;">Start Prompting</a>
             </div>
             `;
 
