@@ -29,16 +29,12 @@ const Feed = () => {
   if (error) return <div>Failed to load</div>;
   if (!allPosts) return <div>Loading...</div>;
 
-  const validData = Array.isArray(allPosts) ? allPosts : [];
-
   const filteredPrompts = searchText
-    ? validData.filter(post =>
+    ? allPosts.filter(post =>
         post.creator.username.includes(searchText) ||
         post.tag.includes(searchText) ||
         post.prompt.includes(searchText))
-    : validData;
-
-
+    : allPosts;
 
   const handleSearchChange = (e) => {
     clearTimeout(searchTimeout);
